@@ -1,5 +1,10 @@
-// API Configuration
-const API_BASE_URL = 'http://localhost:3000/api';
+// API Configuration - Uses api-config.js
+// This file should be loaded AFTER api-config.js
+
+// Get API URL from configuration
+const API_BASE_URL = window.API_URL || 'http://localhost:3000/api';
+
+console.log('📡 API Base URL configured:', API_BASE_URL);
 
 // Simple API request wrapper with proper error handling
 async function apiRequest(endpoint, method = 'GET', data = null) {

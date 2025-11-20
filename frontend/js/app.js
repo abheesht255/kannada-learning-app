@@ -70,19 +70,28 @@ window.showAdminTab = showAdminTab;
 
 // Check backend connection on load
 async function checkBackendConnection() {
+    const apiUrl = window.API_URL || 'http://localhost:3000/api';
     try {
-        const response = await fetch('http://localhost:3000/api/health');
+        const response = await fetch(apiUrl.replace('/api', '/health'));
         if (!response.ok) {
-            console.warn('Backend server might not be running');
+            console.warn('Backend server might not be responding');
+        } else {
+            console.log('✅ Backend server connection successful');
         }
     } catch (error) {
-        console.error('Cannot connect to backend. Make sure the server is running on http://localhost:3000');
+        console.error('❌ Cannot connect to backend at:', apiUrl);
+        console.error('Error:', error.message);
+        console.log('📝 To fix this:');
+        console.log('1. Make sure backend is running: npm start (in backend folder)');
+        console.log('2. Update api-config.js with correct backend URL');
+        console.log('3. Check if firewall is blocking port 3000');
+        
         // Show a warning to user
         setTimeout(() => {
-            if (document.getElementById('chapters-list').children.length === 0) {
-                alert('ಬ್ಯಾಕೆಂಡ್ ಸರ್ವರ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ಸರ್ವರ್ ರನ್ ಆಗುತ್ತಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.\n\nCannot connect to backend server. Please make sure the server is running:\ncd backend\nnpm install\nnpm start');
+            if (document.getElementById('chapters-list') && document.getElementById('chapters-list').children.length === 0) {
+                alert('⚠️ Backend Server Connection Error\n\nCannot connect to: ' + apiUrl + '\n\nPlease:\n1. Start the backend server\n2. Or update the API URL in js/api-config.js\n\nCheck browser console for details.');
             }
-        }, 1000);
+        }, 2000);
     }
 }
 

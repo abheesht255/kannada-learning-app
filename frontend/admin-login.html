@@ -447,8 +447,10 @@
         </div>
     </div>
 
+    <script src="js/api-config.js"></script>
     <script>
-        const API_URL = 'http://localhost:3000/api';
+        // Use API_URL from api-config.js
+        console.log('Using API URL:', window.API_URL);
 
         function showMessage(text, type) {
             const messageEl = document.getElementById('message');
@@ -464,7 +466,7 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch(`${API_URL}/auth/admin/login`, {
+                const response = await fetch(`${window.API_URL}/auth/admin/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
@@ -483,7 +485,8 @@
                     showMessage('❌ ' + (data.error || 'Invalid credentials'), 'error');
                 }
             } catch (error) {
-                showMessage('❌ Error connecting to server', 'error');
+                showMessage('❌ Cannot connect to server. Is the backend running?\n\n' + error.message, 'error');
+                console.error('Server connection error:', error);
             }
         });
     </script>

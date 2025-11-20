@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         try {
             const token = localStorage.getItem('authToken');
             if (token && currentUser.id) {
-                const response = await fetch(`http://localhost:3000/api/auth/user/${currentUser.id}`, {
+                const response = await fetch(`${window.API_URL}/api/auth/user/${currentUser.id}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -108,7 +108,7 @@ async function syncProgressFromServer() {
         const token = localStorage.getItem('authToken');
         if (!token || !currentUser?.id) return;
         
-        const response = await fetch(`http://localhost:3000/api/auth/user/${currentUser.id}`, {
+        const response = await fetch(`${window.API_URL}/auth/user/${currentUser.id}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -154,7 +154,7 @@ async function saveProgressToServer() {
 
         console.log('📤 Saving progress to server:', studentProgress);
 
-        const response = await fetch(`http://localhost:3000/api/auth/user/${currentUser.id}`, {
+        const response = await fetch(`${window.API_URL}/auth/user/${currentUser.id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1105,7 +1105,7 @@ async function refreshUserDataFromBackend() {
         }
         
         // Fetch user data from backend
-        const response = await fetch(`http://localhost:3000/api/auth/user/${currentUser.id}`, {
+        const response = await fetch(`${window.API_URL}/auth/user/${currentUser.id}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -1525,7 +1525,7 @@ function openChangePasswordModal() {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/change-password', {
+            const response = await fetch(`${window.API_URL}/auth/change-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1700,7 +1700,7 @@ function closeResetPasswordModal() {
 
 async function sendResetOTP() {
     try {
-        const response = await fetch('http://localhost:3000/api/auth/request-password-reset', {
+        const response = await fetch(`${window.API_URL}/auth/request-password-reset`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1879,7 +1879,7 @@ function openVerifyOTPModal() {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/reset-password-with-otp', {
+            const response = await fetch(`${window.API_URL}/auth/reset-password-with-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
