@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Kannada Learning App! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            animation: gradientShift 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+        }
+
+        /* Map Container with SVG */
+        .map-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .india-map-svg {
+            width: 600px;
+            height: 600px;
+            opacity: 0;
+            animation: mapZoomSequence 18s ease-in-out forwards;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes mapZoomSequence {
+            /* India map appears */
+            0% { 
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            /* Full India visible */
+            10% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            /* Focus on Karnataka region */
+            40% {
+                opacity: 0.5;
+                transform: scale(1.2) translate(50px, 20px);
+            }
+            /* Zoom into Karnataka */
+            70% {
+                opacity: 0.3;
+                transform: scale(3) translate(100px, 50px);
+            }
+            /* Fade out for login card */
+            100% {
+                opacity: 0;
+                transform: scale(3.5) translate(100px, 50px);
+            }
+        }
+
+        /* Floating Elements Container */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Center Floating Text - Stays visible */
+        .center-text {
+            position: fixed;
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            max-width: 490px;
+            animation: floatVertical 4s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        .main-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.1em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            animation: fadeInScale 1s ease-out forwards;
+            opacity: 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 8px;
+            animation: fadeInScale 1s ease-out 0.3s forwards;
+            opacity: 0;
+            line-height: 1.3;
+        }
+
+        .kannada-text {
+            font-family: 'Noto Sans Kannada', sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #FFD700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 8px;
+            animation: fadeInScale 1s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        @keyframes floatVertical {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
+        }
+
+        @keyframes textFadeOut {
+            0% { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+            60% { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+            80% { opacity: 0; transform: translate(-50%, -50%) translateY(0); }
+            100% { opacity: 0; transform: translate(-50%, -50%) translateY(0); }
+        }
+
+        /* Feature Badges - Positioned around center text without overlap */
+        .feature-badge {
+            position: fixed;
+            background: white;
+            padding: 14px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 0.95em;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeInFloat 1s ease-out forwards, badgeFloatContinuous 6s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .badge-icon {
+            font-size: 1.4em;
+        }
+
+        /* Top-Left Badge */
+        .badge-1 {
+            top: 20.5%;
+            left: 1%;
+            animation-delay: 8.5s, 10s;
+            background: linear-gradient(135deg, #fff, #f0f9ff);
+            color: #4facfe;
+        }
+
+        /* Top-Right Badge */
+        .badge-2 {
+            top: 20.5%;
+            right: 40%;
+            animation-delay: 9s, 10.5s;
+            background: linear-gradient(135deg, #fff, #f0fff4);
+            color: #43e97b;
+        }
+
+        /* Bottom-Left Badge */
+        .badge-3 {
+            bottom: 20.5%;
+            left: 1%;
+            animation-delay: 9.5s, 11s;
+            background: linear-gradient(135deg, #fff, #fef3f2);
+            color: #fa709a;
+        }
+
+        /* Bottom-Right Badge */
+        .badge-4 {
+            bottom: 20.5%;
+            right: 40%;
+            animation-delay: 10s, 11.5s;
+            background: linear-gradient(135deg, #fff, #fffbeb);
+            color: #fdcb6e;
+        }
+
+        @keyframes fadeInFloat {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        @keyframes badgeFloatContinuous {
+            0%, 100% { transform: translateY(0) scale(0.8); }
+            50% { transform: translateY(-15px) scale(0.8); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Login Card - Right side */
+        .login-card {
+            position: fixed;
+            z-index: 10;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 360px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            animation: loginCardAppear 1s ease-out 2.5s forwards;
+            opacity: 0;
+            display: block;
+        }
+
+        /* Invisible scrollbar styling */
+        .login-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .login-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .login-card::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 3px;
+        }
+
+        .login-card::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        /* Firefox scrollbar */
+        .login-card {
+            scrollbar-color: rgba(102, 126, 234, 0.3) transparent;
+            scrollbar-width: thin;
+        }
+
+        @keyframes loginCardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(-50%) scale(0.9);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3px;
+        }
+
+        .login-subtitle {
+            color: #999;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 12px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            margin-top: 5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2em; }
+            .subtitle { font-size: 1.1em; }
+            .kannada-text { font-size: 1.3em; }
+            .feature-badge {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+            .badge-icon { font-size: 1.5em; }
+            
+            .login-card {
+                right: 20px;
+                left: 20px;
+                max-width: 100%;
+                padding: 30px 25px;
+                top: 40%;
+                transform: translateY(-50%);
+            }
+            
+            .admin-link {
+                right: 20px;
+                left: 20px;
+                justify-content: center;
+                padding: 12px 20px;
+                font-size: 0.95em;
+                top: calc(40% + 220px);
+            }
+            
+            .center-text {
+                left: 50%;
+                max-width: 90%;
+            }
+            
+            .india-map-svg {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .badge-1 { top: 12%; left: 5%; }
+            .badge-2 { top: 12%; right: 5%; }
+            .badge-3 { bottom: 12%; left: 5%; }
+            .badge-4 { bottom: 12%; right: 5%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background"></div>
+
+    <!-- Map Container -->
+    <div class="map-container">
+        <svg class="india-map-svg" viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg">
+            <!-- India Map with States (Simplified SVG) -->
+            <defs>
+                <style>
+                    .state-path { fill: rgba(255, 255, 255, 0.1); stroke: rgba(255, 255, 255, 0.3); stroke-width: 2; }
+                    .karnataka-path { fill: rgba(255, 215, 0, 0.3); stroke: rgba(255, 215, 0, 0.8); stroke-width: 2; }
+                    .state-label { font-family: 'Poppins', sans-serif; font-size: 12px; fill: rgba(255, 255, 255, 0.6); text-anchor: middle; }
+                    .karnataka-label { font-family: 'Baloo 2', cursive; font-size: 18px; font-weight: bold; fill: rgba(255, 215, 0, 0.9); text-anchor: middle; }
+                </style>
+            </defs>
+            
+            <!-- Simplified India outline and states -->
+            <!-- Northern States -->
+            <path class="state-path" d="M 150 100 L 250 120 L 280 150 L 260 180 L 200 160 Z" />
+            <text class="state-label" x="210" y="145">Punjab</text>
+            
+            <path class="state-path" d="M 280 100 L 380 110 L 400 160 L 350 180 L 300 140 Z" />
+            <text class="state-label" x="330" y="135">Himachal</text>
+            
+            <!-- Eastern States -->
+            <path class="state-path" d="M 420 150 L 480 140 L 500 200 L 450 220 Z" />
+            <text class="state-label" x="460" y="180">Assam</text>
+            
+            <path class="state-path" d="M 380 200 L 450 220 L 480 280 L 420 300 Z" />
+            <text class="state-label" x="430" y="250">Bengal</text>
+            
+            <!-- Central States -->
+            <path class="state-path" d="M 200 200 L 300 180 L 350 250 L 280 280 Z" />
+            <text class="state-label" x="280" y="235">UP</text>
+            
+            <path class="state-path" d="M 250 280 L 340 300 L 380 380 L 300 400 Z" />
+            <text class="state-label" x="310" y="340">MP</text>
+            
+            <!-- Western States -->
+            <path class="state-path" d="M 120 220 L 200 200 L 220 320 L 130 340 Z" />
+            <text class="state-label" x="160" y="270">Rajasthan</text>
+            
+            <path class="state-path" d="M 100 340 L 180 320 L 200 450 L 120 480 Z" />
+            <text class="state-label" x="150" y="400">Gujarat</text>
+            
+            <path class="state-path" d="M 120 480 L 200 450 L 250 600 L 160 620 Z" />
+            <text class="state-label" x="180" y="550">Maharashtra</text>
+            
+            <!-- Southern States - KARNATAKA HIGHLIGHTED -->
+            <path class="karnataka-path" d="M 200 580 L 280 560 L 320 650 L 280 700 L 220 680 Z" />
+            <text class="karnataka-label" x="260" y="630">Karnataka</text>
+            
+            <path class="state-path" d="M 280 560 L 360 540 L 400 650 L 320 650 Z" />
+            <text class="state-label" x="340" y="595">Andhra</text>
+            
+            <path class="state-path" d="M 320 650 L 400 650 L 450 750 L 370 780 Z" />
+            <text class="state-label" x="390" y="710">Tamil Nadu</text>
+            
+            <path class="state-path" d="M 280 700 L 320 650 L 370 780 L 320 800 Z" />
+            <text class="state-label" x="320" y="760">Kerala</text>
+        </svg>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <!-- Center Text with Logo -->
+        <div class="center-text">
+            <div style="margin-bottom: 20px; display: flex; justify-content: center;">
+            </div>
+            <div class="main-title">🎉 Learn Kannada App 🎉</div>
+            <div class="subtitle">📚 Future of learning Kannada in a fun way!</div>
+            <div class="subtitle">✨ Learn, speak and excel in Kannada ✨</div>
+            <div class="kannada-text">ಕನ್ನಡವನ್ನು ಬೆಳೆಸೋಣ ಮತ್ತು ಉಳಿಸೋಣ 💛</div>
+        </div>
+
+        <!-- Feature Badges - Only Real App Features -->
+        <div class="feature-badge badge-1">
+            <span class="badge-icon">📚</span>
+            <span>Interactive Textbooks</span>
+        </div>
+
+        <div class="feature-badge badge-2">
+            <span class="badge-icon">📝</span>
+            <span>Quizzes & Mastery</span>
+        </div>
+
+        <div class="feature-badge badge-3">
+            <span class="badge-icon">🏆</span>
+            <span>Progress Tracking</span>
+        </div>
+
+        <div class="feature-badge badge-4">
+            <span class="badge-icon">🌟</span>
+            <span>Learn & Grow</span>
+        </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">🚀</div>
+            <h1 class="login-title">Welcome Back!</h1>
+            <p class="login-subtitle">Start your Kannada learning journey</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+            <button class="tab-btn" onclick="window.open('admin-login.html', '_blank')">👨‍💼 Admin</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <!-- Login Form -->
+        <div id="login-tab" class="tab-content active">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">📧 Email</label>
+                    <input type="email" id="loginEmail" required placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">🔒 Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="submit-btn">🎯 Let's Learn!</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#forgot-password" onclick="showForgotPassword()" style="color: #667eea; text-decoration: none; font-size: 0.9em; cursor: pointer;">🔑 Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgot-password-tab" class="tab-content">
+            <h3 style="text-align: center; color: #333; margin-bottom: 20px;">🔑 Reset Password</h3>
+            
+            <!-- Step 1: Enter Email -->
+            <div id="forgot-step-1">
+                <form id="forgotEmailForm">
+                    <div class="form-group">
+                        <label for="forgotEmail">📧 Enter your email</label>
+                        <input type="email" id="forgotEmail" required placeholder="your.email@example.com">
+                    </div>
+                    <button type="submit" class="submit-btn">📬 Send OTP</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Verify OTP & Reset Password -->
+            <div id="forgot-step-2" style="display: none;">
+                <form id="forgotResetForm">
+                    <div class="form-group">
+                        <label for="otpCode">🔐 OTP Code</label>
+                        <input type="text" id="otpCode" required placeholder="Enter 6-digit OTP" maxlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">🔒 New Password</label>
+                        <input type="password" id="newPassword" required placeholder="Create a new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">🔒 Confirm Password</label>
+                        <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="submit-btn">✅ Reset Password</button>
+                </form>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="#login" onclick="showLogin()" style="color: #667eea; text-decoration: none; font-size: 0.9em; cursor: pointer;">← Back to Login</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-tab" class="tab-content">
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="firstName">👤 First Name</label>
+                    <input type="text" id="firstName" required placeholder="Your first name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">👤 Last Name</label>
+                    <input type="text" id="lastName" required placeholder="Your last name">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">📧 Email</label>
+                    <input type="email" id="signupEmail" required placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">📱 Mobile</label>
+                    <input type="tel" id="mobile" required placeholder="10-digit mobile number">
+                </div>
+                <div class="form-group">
+                    <label for="schoolCollege">🏫 School/College</label>
+                    <input type="text" id="schoolCollege" placeholder="Your school or college name">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">🔒 Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create a strong password">
+                </div>
+                <button type="submit" class="submit-btn">🎉 Join Now!</button>
+            </form>
+        </div>
+
+        <!-- Admin Login Form -->
+        <div id="admin-tab" class="tab-content">
+            <form id="adminForm">
+                <div class="form-group">
+                    <label for="adminEmail">📧 Admin Email</label>
+                    <input type="email" id="adminEmail" required placeholder="admin.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">🔒 Admin Password</label>
+                    <input type="password" id="adminPassword" required placeholder="Enter admin password">
+                </div>
+                <button type="submit" class="submit-btn">🔐 Admin Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tab}-tab`).classList.add('active');
+
+            // Hide message
+            document.getElementById('message').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('login-tab').classList.add('active');
+            document.getElementById('signup-tab').classList.remove('active');
+            document.getElementById('admin-tab').classList.remove('active');
+            document.getElementById('forgot-password-tab').classList.remove('active');
+            document.getElementById('message').style.display = 'none';
+        }
+
+        function showForgotPassword() {
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('signup-tab').classList.remove('active');
+            document.getElementById('admin-tab').classList.remove('active');
+            document.getElementById('forgot-password-tab').classList.add('active');
+            document.getElementById('message').style.display = 'none';
+        }
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+        }
+
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('🎉 Login successful! Redirecting...', 'success');
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    showMessage('❌ ' + (data.error || 'Login failed'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error connecting to server', 'error');
+            }
+        });
+
+        // Signup Form Handler
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('signupEmail').value,
+                mobile: document.getElementById('mobile').value,
+                schoolCollege: document.getElementById('schoolCollege').value,
+                password: document.getElementById('signupPassword').value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('🎉 Account created! Welcome! Redirecting...', 'success');
+                    
+                    // Store user info and redirect to main page
+                    const userData = {
+                        id: data.user.id,
+                        firstName: data.user.firstName,
+                        lastName: data.user.lastName,
+                        email: data.user.email,
+                        mobile: data.user.mobile,
+                        schoolCollege: data.user.schoolCollege
+                    };
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+                    localStorage.setItem('token', data.token);
+                    
+                    // Redirect to main page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    showMessage('❌ ' + (data.error || 'Signup failed'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error connecting to server', 'error');
+            }
+        });
+
+        // Admin Form Handler - Redirect to admin login page
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            window.location.href = 'admin-login.html';
+        });
+
+        // Forgot Password - Step 1: Send OTP
+        document.getElementById('forgotEmailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('forgotEmail').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, method: 'email' })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    let message = '✅ OTP sent! Check your email inbox.';
+                    
+                    // Show demo OTP if provided (for development)
+                    if (data.demo_otp) {
+                        message += `\n\n📝 Demo Mode: OTP is ${data.demo_otp}\n(Check server console for more details)`;
+                    }
+                    
+                    showMessage(message, 'success');
+                    // Store email for next step
+                    sessionStorage.setItem('resetEmail', email);
+                    // Show step 2 form after 2 seconds
+                    setTimeout(() => {
+                        document.getElementById('forgot-step-1').style.display = 'none';
+                        document.getElementById('forgot-step-2').style.display = 'block';
+                    }, 2000);
+                } else {
+                    showMessage('❌ ' + (data.error || 'Email not found'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error: ' + error.message, 'error');
+            }
+        });
+
+        // Forgot Password - Step 2: Reset Password
+        document.getElementById('forgotResetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = sessionStorage.getItem('resetEmail');
+            const otp = document.getElementById('otpCode').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                showMessage('❌ Passwords do not match', 'error');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showMessage('❌ Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            try {
+                // First verify OTP
+                const verifyResponse = await fetch(`${API_URL}/auth/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp, method: 'email' })
+                });
+
+                const verifyData = await verifyResponse.json();
+
+                if (!verifyResponse.ok) {
+                    showMessage('❌ ' + (verifyData.error || 'Invalid OTP'), 'error');
+                    return;
+                }
+
+                // Then reset password with reset token
+                const resetResponse = await fetch(`${API_URL}/auth/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resetToken: verifyData.resetToken, newPassword })
+                });
+
+                const resetData = await resetResponse.json();
+
+                if (resetResponse.ok) {
+                    showMessage('✅ Password reset successfully! Redirecting to login...', 'success');
+                    setTimeout(() => {
+                        // Reset form and go back to login
+                        document.getElementById('forgotEmailForm').reset();
+                        document.getElementById('forgotResetForm').reset();
+                        document.getElementById('forgot-step-1').style.display = 'block';
+                        document.getElementById('forgot-step-2').style.display = 'none';
+                        sessionStorage.removeItem('resetEmail');
+                        showLogin();
+                    }, 1500);
+                } else {
+                    showMessage('❌ ' + (resetData.error || 'Password reset failed'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error: ' + error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

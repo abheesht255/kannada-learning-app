@@ -1,0 +1,50 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer circle background -->
+  <circle cx="100" cy="100" r="95" fill="url(#logoGradient)" opacity="0.9"/>
+  
+  <!-- Inner circle with accent color -->
+  <circle cx="100" cy="100" r="85" fill="white" opacity="0.1"/>
+  
+  <!-- Book symbol - left side -->
+  <path d="M 70 60 L 70 140 Q 70 150 80 150 L 90 150 L 90 60 Z" fill="url(#accentGradient)" opacity="0.9"/>
+  <path d="M 90 60 L 90 150 L 100 150 Q 110 150 110 140 L 110 60 Z" fill="white" opacity="0.8"/>
+  
+  <!-- Book pages detail -->
+  <line x1="75" y1="75" x2="105" y2="75" stroke="white" stroke-width="2" opacity="0.6"/>
+  <line x1="75" y1="90" x2="105" y2="90" stroke="white" stroke-width="2" opacity="0.6"/>
+  <line x1="75" y1="105" x2="105" y2="105" stroke="white" stroke-width="2" opacity="0.6"/>
+  <line x1="75" y1="120" x2="105" y2="120" stroke="white" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Kannada letter "ಕ" styled symbol - right side -->
+  <g transform="translate(130, 100)">
+    <circle cx="0" cy="0" r="20" fill="url(#accentGradient)" opacity="0.7"/>
+    <path d="M -8 -5 Q -8 -10 0 -12 Q 8 -10 8 -5 L 8 8 Q 8 12 0 12 Q -8 12 -8 8 Z" fill="white" opacity="0.9" stroke="white" stroke-width="1.5"/>
+    <path d="M -3 0 L 3 0" stroke="white" stroke-width="2" opacity="0.8"/>
+  </g>
+  
+  <!-- Decorative stars -->
+  <g fill="#ffeb3b" opacity="0.8">
+    <!-- Top star -->
+    <polygon points="100,30 105,45 120,45 108,55 113,70 100,60 87,70 92,55 80,45 95,45" transform="scale(0.5) translate(100, -30)"/>
+    <!-- Bottom star -->
+    <polygon points="100,170 105,185 120,185 108,195 113,210 100,200 87,210 92,195 80,185 95,185" transform="scale(0.5) translate(-100, 250)"/>
+  </g>
+  
+  <!-- Center accent dot -->
+  <circle cx="100" cy="100" r="3" fill="#ffeb3b" opacity="0.9"/>
+  
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#accentGradient)" stroke-width="3" opacity="0.6"/>
+</svg>

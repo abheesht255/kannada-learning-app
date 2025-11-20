@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page Layout Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Control Panel */
+        .control-panel {
+            width: 350px;
+            background: #f5f5f5;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 2px solid #ddd;
+        }
+
+        .control-panel h2 {
+            font-family: 'Baloo 2', cursive;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .control-section h3 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .control-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .value-display {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        /* Right Preview Area */
+        .preview-area {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Preview Elements */
+        .preview-element {
+            position: absolute;
+            border: 2px dashed rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            font-size: 0.9em;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        #intro-text {
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: auto;
+            background: rgba(0,0,0,0.2);
+            border: 2px solid yellow;
+            color: #FFD700;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 5;
+        }
+
+        #login-card {
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 350px;
+            background: rgba(255,255,255,0.95);
+            border: 2px solid #667eea;
+            z-index: 10;
+            color: #333;
+        }
+
+        #admin-btn {
+            right: 40px;
+            top: calc(50% + 220px);
+            transform: translateY(-50%);
+            width: 200px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 2px solid white;
+            z-index: 100;
+        }
+
+        .badge {
+            width: 180px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #667eea;
+            color: #333;
+            z-index: 2;
+        }
+
+        #badge-1 {
+            top: 25%;
+            left: 3%;
+        }
+
+        #badge-2 {
+            top: 25%;
+            right: 25%;
+        }
+
+        #badge-3 {
+            bottom: 25%;
+            left: 3%;
+        }
+
+        #badge-4 {
+            bottom: 25%;
+            right: 25%;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            margin-top: 20px;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 310px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Slider Label */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <h2>📐 Layout Editor</h2>
+
+        <!-- Intro Text Controls -->
+        <div class="control-section">
+            <h3>🎉 Intro Text</h3>
+            
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Left Position</label>
+                    <span class="value-display" id="intro-left-val">35%</span>
+                </div>
+                <input type="range" id="intro-left" min="5" max="60" value="35" step="1">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Top Position</label>
+                    <span class="value-display" id="intro-top-val">50%</span>
+                </div>
+                <input type="range" id="intro-top" min="10" max="80" value="50" step="1">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Width</label>
+                    <span class="value-display" id="intro-width-val">350px</span>
+                </div>
+                <input type="range" id="intro-width" min="200" max="500" value="350" step="10">
+            </div>
+
+            <div class="control-group">
+                <label>Font Size (Title)</label>
+                <input type="number" id="intro-font-size" value="2.2" step="0.1" min="1" max="4">
+            </div>
+        </div>
+
+        <!-- Login Card Controls -->
+        <div class="control-section">
+            <h3>🔐 Login Card</h3>
+            
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Right Position</label>
+                    <span class="value-display" id="login-right-val">40px</span>
+                </div>
+                <input type="range" id="login-right" min="10" max="200" value="40" step="5">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Top Position</label>
+                    <span class="value-display" id="login-top-val">50%</span>
+                </div>
+                <input type="range" id="login-top" min="10" max="80" value="50" step="1">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Width</label>
+                    <span class="value-display" id="login-width-val">300px</span>
+                </div>
+                <input type="range" id="login-width" min="250" max="450" value="300" step="10">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Height</label>
+                    <span class="value-display" id="login-height-val">350px</span>
+                </div>
+                <input type="range" id="login-height" min="300" max="500" value="350" step="10">
+            </div>
+        </div>
+
+        <!-- Admin Button Controls -->
+        <div class="control-section">
+            <h3>👨‍💼 Admin Button</h3>
+            
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Right Position</label>
+                    <span class="value-display" id="admin-right-val">40px</span>
+                </div>
+                <input type="range" id="admin-right" min="10" max="200" value="40" step="5">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Offset from Login</label>
+                    <span class="value-display" id="admin-offset-val">220px</span>
+                </div>
+                <input type="range" id="admin-offset" min="100" max="350" value="220" step="10">
+            </div>
+        </div>
+
+        <!-- Badges Controls -->
+        <div class="control-section">
+            <h3>🎯 Floating Badges</h3>
+            
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Badge Size</label>
+                    <span class="value-display" id="badge-size-val">100%</span>
+                </div>
+                <input type="range" id="badge-size" min="50" max="150" value="100" step="10">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Left Badges: Left</label>
+                    <span class="value-display" id="badge-left-val">3%</span>
+                </div>
+                <input type="range" id="badge-left" min="0" max="15" value="3" step="0.5">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Right Badges: Right</label>
+                    <span class="value-display" id="badge-right-val">25%</span>
+                </div>
+                <input type="range" id="badge-right" min="15" max="40" value="25" step="0.5">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Top Badges: Top</label>
+                    <span class="value-display" id="badge-top-val">25%</span>
+                </div>
+                <input type="range" id="badge-top" min="10" max="40" value="25" step="0.5">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-row">
+                    <label>Bottom Badges: Bottom</label>
+                    <span class="value-display" id="badge-bottom-val">25%</span>
+                </div>
+                <input type="range" id="badge-bottom" min="10" max="40" value="25" step="0.5">
+            </div>
+        </div>
+
+        <!-- Export -->
+        <button class="copy-btn" onclick="exportCSS()">📋 Copy CSS</button>
+
+        <div class="info-box">
+            <strong>💡 Tip:</strong> Adjust sliders to see changes in real-time. Click "Copy CSS" to get the updated styles!
+        </div>
+    </div>
+
+    <!-- Preview Area -->
+    <div class="preview-area">
+        <div id="intro-text" class="preview-element">
+            🎉 Learn Kannada App 🎉<br><br>
+            📚 Future of learning<br>
+            ✨ Learn & excel<br><br>
+            ಕನ್ನಡವನ್ನು ಬೆಳೆಸೋಣ 💛
+        </div>
+
+        <div id="login-card" class="preview-element">
+            🔐 Login Card
+        </div>
+
+        <div id="admin-btn" class="preview-element">
+            👨‍💼 Admin Login
+        </div>
+
+        <div id="badge-1" class="preview-element badge">
+            📚 Badge 1
+        </div>
+
+        <div id="badge-2" class="preview-element badge">
+            📝 Badge 2
+        </div>
+
+        <div id="badge-3" class="preview-element badge">
+            🏆 Badge 3
+        </div>
+
+        <div id="badge-4" class="preview-element badge">
+            🌟 Badge 4
+        </div>
+    </div>
+
+    <script>
+        // Intro Text Controls
+        document.getElementById('intro-left').addEventListener('input', function(e) {
+            document.getElementById('intro-text').style.left = e.target.value + '%';
+            document.getElementById('intro-left-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('intro-top').addEventListener('input', function(e) {
+            document.getElementById('intro-text').style.top = e.target.value + '%';
+            document.getElementById('intro-top-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('intro-width').addEventListener('input', function(e) {
+            document.getElementById('intro-text').style.width = e.target.value + 'px';
+            document.getElementById('intro-width-val').textContent = e.target.value + 'px';
+        });
+
+        document.getElementById('intro-font-size').addEventListener('input', function(e) {
+            document.getElementById('intro-text').style.fontSize = e.target.value + 'em';
+        });
+
+        // Login Card Controls
+        document.getElementById('login-right').addEventListener('input', function(e) {
+            document.getElementById('login-card').style.right = e.target.value + 'px';
+            document.getElementById('login-right-val').textContent = e.target.value + 'px';
+        });
+
+        document.getElementById('login-top').addEventListener('input', function(e) {
+            document.getElementById('login-card').style.top = e.target.value + '%';
+            document.getElementById('login-top-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('login-width').addEventListener('input', function(e) {
+            document.getElementById('login-card').style.width = e.target.value + 'px';
+            document.getElementById('login-width-val').textContent = e.target.value + 'px';
+        });
+
+        document.getElementById('login-height').addEventListener('input', function(e) {
+            document.getElementById('login-card').style.height = e.target.value + 'px';
+            document.getElementById('login-height-val').textContent = e.target.value + 'px';
+        });
+
+        // Admin Button Controls
+        document.getElementById('admin-right').addEventListener('input', function(e) {
+            document.getElementById('admin-btn').style.right = e.target.value + 'px';
+            document.getElementById('admin-right-val').textContent = e.target.value + 'px';
+        });
+
+        document.getElementById('admin-offset').addEventListener('input', function(e) {
+            const offset = e.target.value;
+            const loginTop = document.getElementById('login-top').value;
+            document.getElementById('admin-btn').style.top = 'calc(' + loginTop + '% + ' + offset + 'px)';
+            document.getElementById('admin-offset-val').textContent = offset + 'px';
+        });
+
+        // Badge Controls
+        document.getElementById('badge-size').addEventListener('input', function(e) {
+            const scale = e.target.value / 100;
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.style.transform = 'scale(' + scale + ')';
+            });
+            document.getElementById('badge-size-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('badge-left').addEventListener('input', function(e) {
+            document.getElementById('badge-1').style.left = e.target.value + '%';
+            document.getElementById('badge-3').style.left = e.target.value + '%';
+            document.getElementById('badge-left-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('badge-right').addEventListener('input', function(e) {
+            document.getElementById('badge-2').style.right = e.target.value + '%';
+            document.getElementById('badge-4').style.right = e.target.value + '%';
+            document.getElementById('badge-right-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('badge-top').addEventListener('input', function(e) {
+            document.getElementById('badge-1').style.top = e.target.value + '%';
+            document.getElementById('badge-2').style.top = e.target.value + '%';
+            document.getElementById('badge-top-val').textContent = e.target.value + '%';
+        });
+
+        document.getElementById('badge-bottom').addEventListener('input', function(e) {
+            document.getElementById('badge-3').style.bottom = e.target.value + '%';
+            document.getElementById('badge-4').style.bottom = e.target.value + '%';
+            document.getElementById('badge-bottom-val').textContent = e.target.value + '%';
+        });
+
+        // Export CSS
+        function exportCSS() {
+            const css = `
+/* Intro Text */
+.center-text {
+    left: ${document.getElementById('intro-left').value}%;
+    top: ${document.getElementById('intro-top').value}%;
+    max-width: ${document.getElementById('intro-width').value}px;
+}
+
+.main-title {
+    font-size: ${document.getElementById('intro-font-size').value}em;
+}
+
+/* Login Card */
+.login-card {
+    right: ${document.getElementById('login-right').value}px;
+    top: ${document.getElementById('login-top').value}%;
+    max-width: ${document.getElementById('login-width').value}px;
+}
+
+/* Admin Button */
+.admin-link {
+    right: ${document.getElementById('admin-right').value}px;
+    top: calc(${document.getElementById('login-top').value}% + ${document.getElementById('admin-offset').value}px);
+}
+
+/* Badges */
+.badge-1, .badge-3 {
+    left: ${document.getElementById('badge-left').value}%;
+}
+
+.badge-2, .badge-4 {
+    right: ${document.getElementById('badge-right').value}%;
+}
+
+.badge-1, .badge-2 {
+    top: ${document.getElementById('badge-top').value}%;
+}
+
+.badge-3, .badge-4 {
+    bottom: ${document.getElementById('badge-bottom').value}%;
+}
+
+.feature-badge {
+    transform: scale(${document.getElementById('badge-size').value / 100});
+}
+            `;
+
+            navigator.clipboard.writeText(css).then(() => {
+                alert('✅ CSS copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

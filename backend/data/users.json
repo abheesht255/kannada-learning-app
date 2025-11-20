@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "1763448262211",
+      "firstName": "Abheesht",
+      "lastName": "Bagalkot",
+      "schoolCollege": "Acharya",
+      "email": "abheesht255@gmail.com",
+      "mobile": "9482649101",
+      "password": "$2b$10$eE47HhUyqQ9q7O1IVutt6Oi22aMnVy3ZLPa4/JR3gkV1k4sAOlK0a",
+      "createdAt": "2025-11-18T06:44:22.211Z",
+      "progress": {
+        "1": {
+          "hasRead": true,
+          "quizAttempts": [
+            {
+              "score": 100,
+              "date": "2025-11-18T16:32:11.056Z"
+            }
+          ],
+          "bestScore": 100
+        }
+      },
+      "updatedAt": "2025-11-18T16:32:11.090Z"
+    }
+  ]
+}

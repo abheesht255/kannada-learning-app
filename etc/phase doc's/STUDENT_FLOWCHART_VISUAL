@@ -1,0 +1,112 @@
+// Student Journey Flowchart
+digraph "Student Flow" {
+	rankdir=TB size="10,14"
+	node [fillcolor=lightblue fontname=Helvetica fontsize=10 margin="0.3,0.2" shape=box style=filled]
+	graph [bgcolor=white pad=0.5]
+	node [fillcolor=lightgreen]
+	start [label="START
+Page Load" shape=ellipse]
+	node [fillcolor=lightblue]
+	load_progress [label="Load Progress
+from localStorage"]
+	sync_server [label="Sync Progress
+from Server
+GET /api/auth/user/:id"]
+	display_chapters [label="Display Chapters
+with Progress Bars"]
+	node [fillcolor=lightyellow]
+	read_decision [label="User Clicks
+Read Chapter?" shape=diamond]
+	open_chapter [label="Open Chapter
+Modal
+openChapterToRead()"]
+	mark_read [label="Mark as Read
+hasRead = true
+markAsReadAndClose()"]
+	save_progress_srv [label="Save Progress
+to Server
+PUT /api/auth/user/:id"]
+	node [fillcolor=lightsalmon]
+	quiz_decision [label="User Clicks
+Take Quiz?" shape=diamond]
+	check_hasread [label="Check: hasRead?" fillcolor="#FFB6C1" shape=diamond]
+	show_read_modal [label="Show Modal:
+\"Read First\"
+LOCKED" fillcolor="#FF6B6B"]
+	node [fillcolor="#FFD700"]
+	check_pass_1st [label="Check:
+Passed on
+1st attempt?" shape=diamond]
+	show_pass_modal [label="Show Modal:
+\"Already Passed\"
+LOCKED" fillcolor="#FF6B6B"]
+	node [fillcolor="#FFA500"]
+	check_fail_2x [label="Check:
+Failed both
+attempts?" shape=diamond]
+	show_fail_modal [label="Show Modal:
+\"Locked\"
+LOCKED" fillcolor="#FF6B6B"]
+	node [fillcolor="#90EE90"]
+	load_quiz [label="Load Quiz
+Questions
+startQuiz()"]
+	show_questions [label="Display Quiz
+with Questions"]
+	save_answer [label="Student Selects
+Answer
+saveAnswer()"]
+	node [fillcolor="#87CEEB"]
+	submit_quiz [label="Submit Quiz
+submitQuiz()
+POST /api/quizzes/:id/submit"]
+	calculate_score [label="Calculate Score
+Compare Answers"]
+	save_result [label="Save Result to DB
+POST /api/results/submit
+saveResultToDatabase()"]
+	node [fillcolor="#DDA0DD"]
+	update_progress [label="Update Progress
+updateChapterProgress()
+Add attempt score"]
+	persist_progress [label="Persist to Server
+saveProgressToServer()
+PUT /api/auth/user/:id"]
+	node [fillcolor="#FFB6C1"]
+	show_results [label="Show Results
+with Score & Emoji
+showResults()"]
+	node [fillcolor=lightgreen]
+	end [label="Continue or
+Logout" shape=ellipse]
+	start -> load_progress
+	load_progress -> sync_server
+	sync_server -> display_chapters
+	display_chapters -> read_decision
+	read_decision -> open_chapter [label=YES]
+	read_decision -> quiz_decision [label=NO]
+	open_chapter -> mark_read
+	mark_read -> save_progress_srv
+	save_progress_srv -> display_chapters
+	quiz_decision -> check_hasread [label=YES]
+	quiz_decision -> end [label=NO]
+	check_hasread -> show_read_modal [label=NO]
+	show_read_modal -> end
+	check_hasread -> check_pass_1st [label=YES]
+	check_pass_1st -> show_pass_modal [label=YES]
+	show_pass_modal -> end
+	check_pass_1st -> check_fail_2x [label=NO]
+	check_fail_2x -> show_fail_modal [label=YES]
+	show_fail_modal -> end
+	check_fail_2x -> load_quiz [label=NO]
+	load_quiz -> show_questions
+	show_questions -> save_answer
+	save_answer -> show_questions [label="More Questions"]
+	show_questions -> submit_quiz [label="All Answered"]
+	submit_quiz -> calculate_score
+	calculate_score -> save_result
+	save_result -> update_progress
+	update_progress -> persist_progress
+	persist_progress -> show_results
+	show_results -> end
+}
